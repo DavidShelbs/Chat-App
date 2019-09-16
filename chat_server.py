@@ -13,7 +13,7 @@ with any two hosts
 The second argument is the type of socket. SOCK_STREAM means that data or characters are read in a continuous flow
 """
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-IP_address = socket.gethostbyname(socket.gethostname())
+IP_address = socket.gethostbyname(socket.getfqdn())
 Port = 5001
 server.bind((IP_address, Port))
 print("Server Running on " + IP_address + ":" + str(Port))
@@ -46,6 +46,14 @@ def clientthread(conn, addr):
                 print(message.decode())
                 message_to_send = message.decode()
                 broadcast(message_to_send,conn)
+            if decMessage[0] == '#' and decMessage[1] == '#' and decMessage[-2] == '#' and decMessage[-1] == '#':
+                print("here")
+                mac = ""
+                for i in range(0, len(decMessage)):
+                    if decMessage[i] != '#':
+                        mac += decMessage[i]
+                data_base.execute("UPDATE USERS set Mac_Address = ? where IP_Address = ?", (mac, ip))
+                data_base.commit()
 
     else:
         message = user_name + " has joined the channel!"
@@ -69,6 +77,14 @@ def clientthread(conn, addr):
                         print(message.decode())
                         message_to_send = message.decode()
                         broadcast(message_to_send,conn)
+                    if decMessage[0] == '#' and decMessage[1] == '#' and decMessage[-2] == '#' and decMessage[-1] == '#':
+                        print("here")
+                        mac = ""
+                        for i in range(0, len(decMessage)):
+                            if decMessage[i] != '#':
+                                mac += decMessage[i]
+                        data_base.execute("UPDATE USERS set Mac_Address = ? where IP_Address = ?", (mac, ip))
+                        data_base.commit()
                     else:
                         print("<" + user_name + "> " + message.decode())
                         message_to_send = "<" + user_name + "> " + message.decode()
@@ -98,7 +114,8 @@ db = sqlite3.connect('tech_support.db')
 data_base = db.cursor()
 db.execute('''CREATE TABLE IF NOT EXISTS USERS
          (IP_Address    INT     PRIMARY KEY     NOT NULL,
-         User_Name      TEXT    NOT NULL);''')
+         User_Name      TEXT    NOT NULL,
+         Mac_Address    TEXT);''')
 
 while True:
     conn, addr = server.accept()

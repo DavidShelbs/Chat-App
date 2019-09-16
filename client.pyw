@@ -1,6 +1,7 @@
 import socket
 import select
 import sys
+import time
 from tkinter import *
 from threading import *
 from uuid import getnode as get_mac
@@ -24,12 +25,17 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sockfd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # IP_Address_address = "64.251.153.170"
-IP_Address_address = socket.gethostbyname(socket.gethostname())
+IP_Address_address = socket.gethostbyname(socket.getfqdn())
 Port = 5001
 mac = get_mac()
-print(mac)
+hash = "##"
+mac_str = hash + str(mac) + hash
+print(mac_str)
+print(str(mac_str)[0] + str(mac_str)[1] + str(mac_str)[-2] + str(mac_str)[-1])
 server.connect((IP_Address_address, Port))
 sockfd.connect((IP_Address_address, Port))
+time.sleep(1)
+server.send(mac_str.encode())
 
 root = Tk()
 root.title("Tech Support")
