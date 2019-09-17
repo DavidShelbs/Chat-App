@@ -13,7 +13,8 @@ with any two hosts
 The second argument is the type of socket. SOCK_STREAM means that data or characters are read in a continuous flow
 """
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-IP_address = socket.gethostbyname(socket.getfqdn())
+# IP_address = socket.gethostbyname(socket.getfqdn())
+IP_address = "192.168.0.22"
 Port = 5001
 server.bind((IP_address, Port))
 print("Server Running on " + IP_address + ":" + str(Port))

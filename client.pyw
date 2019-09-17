@@ -24,16 +24,16 @@ def recv_msg(sock):
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sockfd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# IP_Address_address = "64.251.153.170"
-IP_Address_address = socket.gethostbyname(socket.getfqdn())
+ip_address = "192.168.0.17"
+# ip_address = socket.gethostbyname(socket.getfqdn())
 Port = 5001
 mac = get_mac()
 hash = "##"
 mac_str = hash + str(mac) + hash
 print(mac_str)
 print(str(mac_str)[0] + str(mac_str)[1] + str(mac_str)[-2] + str(mac_str)[-1])
-server.connect((IP_Address_address, Port))
-sockfd.connect((IP_Address_address, Port))
+server.connect((ip_address, Port))
+sockfd.connect((ip_address, Port))
 time.sleep(1)
 server.send(mac_str.encode())
 
