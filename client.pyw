@@ -24,8 +24,8 @@ def recv_msg(sock):
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sockfd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-ip_address = "192.168.0.17"
-# ip_address = socket.gethostbyname(socket.getfqdn())
+# ip_address = "192.168.0.17"
+ip_address = socket.gethostbyname(socket.getfqdn())
 Port = 5001
 mac = get_mac()
 hash = "##"
